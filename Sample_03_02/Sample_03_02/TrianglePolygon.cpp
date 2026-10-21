@@ -100,3 +100,12 @@ void TrianglePolygon::InitIndexBuffer()
 	m_indexBuffer.Copy(static_cast<uint16_t*>(indices));
 
 }
+
+void TrianglePolygon::SetVertexPosition(int vertNo, float x, float y, float z)
+{
+	m_vertices[vertNo].pos[0] = x;
+	m_vertices[vertNo].pos[1] = y;
+	m_vertices[vertNo].pos[2] = z;
+	m_vertexBuffer.Copy(m_vertices);
+
+}

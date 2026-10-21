@@ -1,47 +1,80 @@
-ï»¿#include "stdafx.h"
+#include "stdafx.h"
 #include "system/system.h"
 
-// step-1 ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãƒ©ã‚¤ãƒˆç”¨ã®æ§‹é€ ä½“ã‚’å®šç¾©ã™ã‚‹
+// step-1 ƒfƒBƒŒƒNƒVƒ‡ƒ“ƒ‰ƒCƒg—p‚Ì\‘¢‘Ì‚ğ’è‹`‚·‚é
+struct DirectionLight
+{
+    Vector3 lightDirection;
+
+    float pad;
+
+    Vector3 ligColor;
+};
+
 
 ///////////////////////////////////////////////////////////////////
-// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ãƒ¡ã‚¤ãƒ³é–¢æ•°
+// ƒEƒBƒ“ƒhƒEƒvƒƒOƒ‰ƒ€‚ÌƒƒCƒ“ŠÖ”
 ///////////////////////////////////////////////////////////////////
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-    // ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–
+    // ƒQ[ƒ€‚Ì‰Šú‰»
     InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
 
     //////////////////////////////////////
-    // ã“ã“ã‹ã‚‰åˆæœŸåŒ–ã‚’è¡Œã†ã‚³ãƒ¼ãƒ‰ã‚’è¨˜è¿°ã™ã‚‹
+    // ‚±‚±‚©‚ç‰Šú‰»‚ğs‚¤ƒR[ƒh‚ğ‹Lq‚·‚é
     //////////////////////////////////////
 
     g_camera3D->SetPosition({ 0.0f, 0.0f, 100.0f });
     g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });
 
-    // step-2 ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãƒ©ã‚¤ãƒˆã®ãƒ‡ãƒ¼ã‚¿ã‚’ä½œæˆã™ã‚‹
+    // step-2 ƒfƒBƒŒƒNƒVƒ‡ƒ“ƒ‰ƒCƒg‚Ìƒf[ƒ^‚ğì¬‚·‚é
+    DirectionLight directionLig;
 
-    // step-3 ãƒ¢ãƒ‡ãƒ«ã‚’åˆæœŸåŒ–ã™ã‚‹
+    directionLig.lightDirection.x = 1.0f;
+    directionLig.lightDirection.y = -1.0f;
+    directionLig.lightDirection.z = -1.0f;
+    
+    directionLig.lightDirection.Normalize();
+
+    directionLig.ligColor.x = 0.5f;
+    directionLig.ligColor.y = 0.5f;
+    directionLig.ligColor.z = 0.5f;
+
+    // step-3 ƒ‚ƒfƒ‹‚ğ‰Šú‰»‚·‚é
+
+    ModelInitData modelInitData;
+    modelInitData.m_tkmFilePath = "Assets/modelData/teapot.tkm";
+
+    modelInitData.m_fxFilePath = "Assets/shader/sample.fx";
+
+    modelInitData.m_expandConstantBuffer = &directionLig;
+    modelInitData.m_expandConstantBufferSize = sizeof(directionLig);
+
+    Model model;
+    model.Init(modelInitData);
 
     //////////////////////////////////////
-    // åˆæœŸåŒ–ã‚’è¡Œã†ã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãã®ã¯ã“ã“ã¾ã§ï¼ï¼ï¼
+    // ‰Šú‰»‚ğs‚¤ƒR[ƒh‚ğ‘‚­‚Ì‚Í‚±‚±‚Ü‚ÅIII
     //////////////////////////////////////
     auto& renderContext = g_graphicsEngine->GetRenderContext();
 
-    // ã“ã“ã‹ã‚‰ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
+    // ‚±‚±‚©‚çƒQ[ƒ€ƒ‹[ƒv
     while (DispatchWindowMessage())
     {
-        // ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°é–‹å§‹
+        // ƒŒƒ“ƒ_ƒŠƒ“ƒOŠJn
         g_engine->BeginFrame();
         //////////////////////////////////////
-        // ã“ã“ã‹ã‚‰çµµã‚’æãã‚³ãƒ¼ãƒ‰ã‚’è¨˜è¿°ã™ã‚‹
+        // ‚±‚±‚©‚çŠG‚ğ•`‚­ƒR[ƒh‚ğ‹Lq‚·‚é
         //////////////////////////////////////
 
-        // step-4 ãƒ¢ãƒ‡ãƒ«ã‚’ãƒ‰ãƒ­ãƒ¼ã™ã‚‹
+        model.Draw(renderContext);
+        
+        // step-4 ƒ‚ƒfƒ‹‚ğƒhƒ[‚·‚é
 
         //////////////////////////////////////
-        // çµµã‚’æãã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãã®ã¯ã“ã“ã¾ã§ï¼ï¼ï¼
+        // ŠG‚ğ•`‚­ƒR[ƒh‚ğ‘‚­‚Ì‚Í‚±‚±‚Ü‚ÅIII
         //////////////////////////////////////
-        // ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°çµ‚äº†
+        // ƒŒƒ“ƒ_ƒŠƒ“ƒOI—¹
         g_engine->EndFrame();
     }
     return 0;

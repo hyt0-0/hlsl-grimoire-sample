@@ -1,16 +1,16 @@
-ï»¿#include "stdafx.h"
+#include "stdafx.h"
 #include "system/system.h"
 #include "sub.h"
 #include "util/stopwatch.h"
 
 
 ///////////////////////////////////////////////////////////////////
-// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ãƒ¡ã‚¤ãƒ³é–¢æ•°
+// ƒEƒBƒ“ƒhƒEƒvƒƒOƒ‰ƒ€‚ÌƒƒCƒ“ŠÖ”
 ///////////////////////////////////////////////////////////////////
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
     srand((unsigned int)time(nullptr));
-    // ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–
+    // ƒQ[ƒ€‚Ì‰Šú‰»
     InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
     InitStandardIOConsole();
 
@@ -18,15 +18,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });
 
     //////////////////////////////////////
-    // ã“ã“ã‹ã‚‰åˆæœŸåŒ–ã‚’è¡Œã†ã‚³ãƒ¼ãƒ‰ã‚’è¨˜è¿°ã™ã‚‹
+    // ‚±‚±‚©‚ç‰Šú‰»‚ğs‚¤ƒR[ƒh‚ğ‹Lq‚·‚é
     //////////////////////////////////////
 
-    // èƒŒæ™¯ãƒ¢ãƒ‡ãƒ«ã‚’åˆæœŸåŒ–
+    // ”wŒiƒ‚ƒfƒ‹‚ğ‰Šú‰»
     Light light;
     Model model;
     InitBGModel(model, light);
 
-    // 500ä½“åˆ†ã®ãƒ¢ãƒ‡ãƒ«ã®åº§æ¨™ã‚’è¨ˆç®—ã™ã‚‹ã€‚
+    // 500‘Ì•ª‚Ìƒ‚ƒfƒ‹‚ÌÀ•W‚ğŒvZ‚·‚éB
     const int width = 50;
     const int height = 10;
     const int numHumanModel = width * height;
@@ -35,7 +35,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     int humanNo = 0;
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
-            // 1000ä½“ã®ãƒ¢ãƒ‡ãƒ«ãŒç¶ºéº—ã«ä¸¦ã¶ã‚ˆã†ã«ã€åº§æ¨™ã‚’è¨ˆç®—ã™ã‚‹ã€‚
+            // 1000‘Ì‚Ìƒ‚ƒfƒ‹‚ªãY—í‚É•À‚Ô‚æ‚¤‚ÉAÀ•W‚ğŒvZ‚·‚éB
             humanPos[humanNo].x = -2400.0f + 100.0f * x;
             humanPos[humanNo].y = -1250.0f + 250.0f * y;
             humanPos[humanNo].z = 0.0f;
@@ -44,55 +44,55 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         }
     }
 
-    // 500ä½“åˆ†ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—å„ç¨®ãƒãƒƒãƒ•ã‚¡ã‚’ç¢ºä¿ã€‚
-    // ã¾ãšã¯è¨ˆç®—ç”¨ã®ãƒãƒƒãƒ•ã‚¡ã‚’ãƒ¡ã‚¤ãƒ³ãƒ¡ãƒ¢ãƒªä¸Šã«ç¢ºä¿ã™ã‚‹ã€‚
+    // 500‘Ì•ª‚Ìƒ[ƒ‹ƒhs—ñŠeíƒoƒbƒtƒ@‚ğŠm•ÛB
+    // ‚Ü‚¸‚ÍŒvZ—p‚Ìƒoƒbƒtƒ@‚ğƒƒCƒ“ƒƒ‚ƒŠã‚ÉŠm•Û‚·‚éB
     Matrix* worldMatrixArray = new Matrix[numHumanModel];
-    // ç¶šã„ã¦ã€ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼å´ã§ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã®ã‚¹ãƒˆãƒ©ã‚¯ãƒãƒ£ãƒ¼ãƒ‰ãƒãƒƒãƒ•ã‚¡ã‚’VRAMä¸Šã«ç¢ºä¿ã™ã‚‹ã€‚
+    // ‘±‚¢‚ÄAƒVƒF[ƒ_[‘¤‚Åƒ[ƒ‹ƒhs—ñ‚ğg—p‚·‚é‚½‚ß‚ÌƒXƒgƒ‰ƒNƒ`ƒƒ[ƒhƒoƒbƒtƒ@‚ğVRAMã‚ÉŠm•Û‚·‚éB
     StructuredBuffer worldMatrixSB;
     worldMatrixSB.Init(
-        sizeof(Matrix), // ç¬¬ä¸€å¼•æ•°ã¯ï¼‘è¦ç´ ã®ã‚µã‚¤ã‚ºã€‚
-        numHumanModel,  // ç¬¬äºŒå¼•æ•°ã¯è¦ç´ æ•°ã€‚
-        nullptr         // ç¬¬ä¸‰å¼•æ•°ã¯åˆæœŸå€¤ãƒ‡ãƒ¼ã‚¿ã€‚åˆæœŸå€¤ã¯æŒ‡å®šã—ãªã„ã®ã§ã€ä»Šå›ã¯nullptrã€‚
+        sizeof(Matrix), // ‘æˆêˆø”‚Í‚P—v‘f‚ÌƒTƒCƒYB
+        numHumanModel,  // ‘æ“ñˆø”‚Í—v‘f”B
+        nullptr         // ‘æOˆø”‚Í‰Šú’lƒf[ƒ^B‰Šú’l‚Íw’è‚µ‚È‚¢‚Ì‚ÅA¡‰ñ‚ÍnullptrB
     );
 
-    // step-1 äººç‰©ã®ãƒ¢ãƒ‡ãƒ«ã‚’æç”»ã™ã‚‹ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’åˆæœŸåŒ–ã€‚
+    // step-1 l•¨‚Ìƒ‚ƒfƒ‹‚ğ•`‰æ‚·‚éƒŒƒ“ƒ_ƒŠƒ“ƒOƒ^[ƒQƒbƒg‚ğ‰Šú‰»B
 
-    // step-2 äººç‰©ã®ãƒ¢ãƒ‡ãƒ«ã‚’åˆæœŸåŒ–ã€‚
+    // step-2 l•¨‚Ìƒ‚ƒfƒ‹‚ğ‰Šú‰»B
     
-    // step-3 äººç‰©ã®ãƒ¢ãƒ‡ãƒ«ã‚’æç”»ã™ã‚‹ãŸã‚ã®ã‚«ãƒ¡ãƒ©ã‚’ä½œæˆã€‚
+    // step-3 l•¨‚Ìƒ‚ƒfƒ‹‚ğ•`‰æ‚·‚é‚½‚ß‚ÌƒJƒƒ‰‚ğì¬B
 
-    // step-4 äººç‰©ã®ãƒ¢ãƒ‡ãƒ«ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è²¼ã‚Šä»˜ã‘ã‚‹æ¿ãƒãƒªãƒ¢ãƒ‡ãƒ«ã‚’åˆæœŸåŒ–ã€‚
+    // step-4 l•¨‚Ìƒ‚ƒfƒ‹‚ÌƒeƒNƒXƒ`ƒƒ‚ğ“\‚è•t‚¯‚é”Âƒ|ƒŠƒ‚ƒfƒ‹‚ğ‰Šú‰»B
     
     //////////////////////////////////////
-    // åˆæœŸåŒ–ã‚’è¡Œã†ã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãã®ã¯ã“ã“ã¾ã§ï¼ï¼ï¼
+    // ‰Šú‰»‚ğs‚¤ƒR[ƒh‚ğ‘‚­‚Ì‚Í‚±‚±‚Ü‚ÅIII
     //////////////////////////////////////
     auto& renderContext = g_graphicsEngine->GetRenderContext();
 
     Stopwatch sw;
     Quaternion qRot;
-    // ã“ã“ã‹ã‚‰ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
+    // ‚±‚±‚©‚çƒQ[ƒ€ƒ‹[ƒv
     while (DispatchWindowMessage())
     {
         sw.Start();
 
-        // 1ãƒ•ãƒ¬ãƒ¼ãƒ ã®é–‹å§‹
+        // 1ƒtƒŒ[ƒ€‚ÌŠJn
         g_engine->BeginFrame();
 
         //////////////////////////////////////
-        // çµµã‚’æãã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãã®ã¯ã“ã“ã¾ã§ï¼ï¼ï¼
+        // ŠG‚ğ•`‚­ƒR[ƒh‚ğ‘‚­‚Ì‚Í‚±‚±‚Ü‚ÅIII
         //////////////////////////////////////
 
-        // äººé–“ã®ãƒ¢ãƒ‡ãƒ«ã‚’å›è»¢ã•ã›ã‚‹ã€‚
+        // lŠÔ‚Ìƒ‚ƒfƒ‹‚ğ‰ñ“]‚³‚¹‚éB
         qRot.AddRotationY(0.01f);
         humanModel.UpdateWorldMatrix(g_vec3Zero, qRot, g_vec3One);
 
-        // step-5 äººç‰©ã®ãƒ¢ãƒ‡ãƒ«ã‚’æç”»ã€‚
+        // step-5 l•¨‚Ìƒ‚ƒfƒ‹‚ğ•`‰æB
     
-        // step-6 ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®è¨­å®šã‚’ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã«æˆ»ã™ã€‚
+        // step-6 ƒŒƒ“ƒ_ƒŠƒ“ƒOƒ^[ƒQƒbƒg‚Ìİ’è‚ğƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚É–ß‚·B
     
-        // step-7 æ¿ãƒãƒªãƒ¢ãƒ‡ãƒ«ã‚’ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚·ãƒ³ã‚°æç”»ã€‚
+        // step-7 ”Âƒ|ƒŠƒ‚ƒfƒ‹‚ğƒCƒ“ƒXƒ^ƒ“ƒVƒ“ƒO•`‰æB
     
-        // 1ãƒ•ãƒ¬ãƒ¼ãƒ çµ‚äº†
+        // 1ƒtƒŒ[ƒ€I—¹
         g_engine->EndFrame();
 
         sw.Stop();

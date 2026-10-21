@@ -5,8 +5,126 @@
 // 関数宣言
 void InitRootSignature(RootSignature& rs);
 
+////課題:左右反転
+
+/////////////////////////////////////////////////////////////////////
+//// 課題:左右反転
+/////////////////////////////////////////////////////////////////////
+//int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
+//{
+//    // ゲームの初期化
+//    InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
+//
+//    //////////////////////////////////////
+//    // ここから初期化を行うコードを記述する
+//    //////////////////////////////////////
+//
+//    // ルートシグネチャを作成
+//    RootSignature rootSignature;
+//    InitRootSignature(rootSignature);
+//
+//    // 定数バッファを作成
+//    ConstantBuffer cb;
+//
+//    cb.Init(sizeof(Matrix));
+//    // 三角形ポリゴンを定義
+//    TrianglePolygon triangle;
+//    triangle.Init(rootSignature);
+//
+//    //// step-1 三角形ポリゴンにUV座標を設定
+//    //triangle.SetUVCoord(
+//    //    0,
+//    //    0.0f,
+//    //    1.0f
+//    //);
+//
+//    //triangle.SetUVCoord(
+//    //    1,
+//    //    0.5f,
+//    //    0.0f
+//    //);
+//
+//    //triangle.SetUVCoord(
+//    //    2,
+//    //    1.0f,
+//    //    1.0f
+//    //);
+//
+//    //課題:UVの左右反転
+//    triangle.SetUVCoord(
+//        0,
+//        1.0f,
+//        1.0f
+//    );
+//
+//    triangle.SetUVCoord(
+//        1,
+//        0.5f,
+//        0.0f
+//    );
+//
+//    triangle.SetUVCoord(
+//        2,
+//        0.0f,
+//        1.0f
+//    );
+//
+//
+//    // step-2 テクスチャをロード
+//    Texture tex;
+//    tex.InitFromDDSFile(L"Assets/image/sample_00.dds");
+//
+//    // ディスクリプタヒープを作成
+//    DescriptorHeap ds;
+//    ds.RegistConstantBuffer(0, cb); // ディスクリプタヒープに定数バッファを登録
+//
+//    // step-3 テクスチャをディスクリプタヒープに登録
+//    ds.RegistShaderResource(0, tex);
+//    ds.Commit();                    //ディスクリプタヒープへの登録を確定
+//
+//    //////////////////////////////////////
+//    // 初期化を行うコードを書くのはここまで！！！
+//    //////////////////////////////////////
+//    auto& renderContext = g_graphicsEngine->GetRenderContext();
+//
+//    // ここからゲームループ
+//    while (DispatchWindowMessage())
+//    {
+//        // フレーム開始
+//        g_engine->BeginFrame();
+//
+//        //////////////////////////////////////
+//        // ここから絵を描くコードを記述する
+//        //////////////////////////////////////
+//
+//        // ルートシグネチャを設定
+//        renderContext.SetRootSignature(rootSignature);
+//
+//        // ワールド行列を作成
+//        Matrix mWorld;
+//
+//        // ワールド行列をグラフィックメモリにコピー
+//        cb.CopyToVRAM(mWorld);
+//
+//        //ディスクリプタヒープを設定
+//        renderContext.SetDescriptorHeap(ds);
+//
+//        //三角形をドロー
+//        triangle.Draw(renderContext);
+//
+//        /// //////////////////////////////////////
+//        //絵を描くコードを書くのはここまで！！！
+//        //////////////////////////////////////
+//        //フレーム終了
+//        g_engine->EndFrame();
+//    }
+//    return 0;
+//}
+
+//課題:四角
+
 ///////////////////////////////////////////////////////////////////
-// ウィンドウプログラムのメイン関数
+// 課題:四角
 ///////////////////////////////////////////////////////////////////
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -27,18 +145,39 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     cb.Init(sizeof(Matrix));
     // 三角形ポリゴンを定義
     TrianglePolygon triangle;
+    TrianglePolygon triangle2;
     triangle.Init(rootSignature);
+    triangle2.Init(rootSignature);
 
-    // step-1 三角形ポリゴンにUV座標を設定
+    //三角形の位置を設定
+    triangle.SetVertexPosition(0, -0.5f, -0.5f, 0.0f);
+    triangle.SetVertexPosition(1, -0.5f, 0.5f, 0.0f);
+    triangle.SetVertexPosition(2, 0.5f, 0.5f, 0.0f);
+
+    triangle2.SetVertexPosition(0, -0.5f, -0.5f, 0.0f);
+    triangle2.SetVertexPosition(1, 0.5f, 0.5f, 0.0f);
+    triangle2.SetVertexPosition(2, 0.5f, -0.5f, 0.0f);
+
+    //UV座標を設定
+    triangle.SetUVCoord(0, 0.0f, 1.0f);
+    triangle.SetUVCoord(1, 0.0f, 0.0f);
+    triangle.SetUVCoord(2, 1.0f, 0.0f);
+
+    triangle2.SetUVCoord(0, 0.0f, 1.0f);
+    triangle2.SetUVCoord(1, 1.0f, 0.0f);
+    triangle2.SetUVCoord(2, 1.0f, 1.0f);
+
 
     // step-2 テクスチャをロード
+    Texture tex;
+    tex.InitFromDDSFile(L"Assets/image/sample_00.dds");
 
     // ディスクリプタヒープを作成
     DescriptorHeap ds;
     ds.RegistConstantBuffer(0, cb); // ディスクリプタヒープに定数バッファを登録
 
     // step-3 テクスチャをディスクリプタヒープに登録
-
+    ds.RegistShaderResource(0, tex);
     ds.Commit();                    //ディスクリプタヒープへの登録を確定
 
     //////////////////////////////////////
@@ -70,6 +209,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
         //三角形をドロー
         triangle.Draw(renderContext);
+        triangle2.Draw(renderContext);
 
         /// //////////////////////////////////////
         //絵を描くコードを書くのはここまで！！！

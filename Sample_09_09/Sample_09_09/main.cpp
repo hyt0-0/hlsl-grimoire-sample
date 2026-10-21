@@ -1,5 +1,8 @@
 ﻿#include "stdafx.h"
 #include "system/system.h"
+# include <iostream>
+# include <chrono>
+
 
 // 頂点構造体
 struct SimpleVertex
@@ -38,10 +41,26 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     spriteInitData.m_width = FRAME_BUFFER_W;
     spriteInitData.m_height = FRAME_BUFFER_H;
 
-    // ワイプサイズ
-    float monochromeRate = 0.0f;
-    spriteInitData.m_expandConstantBuffer = &monochromeRate;
-    spriteInitData.m_expandConstantBufferSize = sizeof(monochromeRate);
+    struct ExpandBuffer {
+        float monochromeRate;
+        float wipeSize; 
+        float padding[2];
+    };
+
+    ExpandBuffer expandData;
+    expandData.monochromeRate = 0.0f;
+    expandData.wipeSize = 1.0f;
+
+    spriteInitData.m_expandConstantBuffer = &expandData;
+    spriteInitData.m_expandConstantBufferSize = sizeof(expandData);
+
+    auto lastTime = std::chrono::steady_clock::now();
+    float blinkTimer = 0.0;
+    float blinkDuration = 0.5f;
+
+    bool increaseMonochrome = true;
+    bool increaseWipe = true;
+
 
     // Spriteクラスのオブジェクトを定義して初期化する
     Sprite test2D;
@@ -63,11 +82,64 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         //////////////////////////////////////
         // ここから絵を描くコードを記述する
         //////////////////////////////////////
+        
+
+        ////課題:徐々に変化
+
         // ワイプサイズを増やして少しずつワイプさせる
-        monochromeRate += 0.01f;
-        if (monochromeRate > 1.0f) {
-            monochromeRate = 1.0f;
-        }
+        //expandData.monochromeRate += 0.001f;
+        //if (expandData.monochromeRate > 1.0f) {
+        //    expandData.monochromeRate = 1.0f;
+        //}
+
+
+        ////課題: 交互に表示
+        //auto currentTime = std::chrono::steady_clock::now();
+        //std::chrono::duration<float> elapsedTime = currentTime - lastTime;
+        //float deltaTime = elapsedTime.count();
+
+
+        ////課題: 繰り返し
+        //if (increaseMonochrome)
+        //{
+        //    expandData.monochromeRate += 0.01f;
+        //    if (expandData.monochromeRate >= 1.0f)
+        //    {
+        //        expandData.monochromeRate = 1.0f;
+        //        increaseMonochrome = false;
+        //    }
+        //}
+        //else
+        //{
+        //    expandData.monochromeRate -= 0.01f;
+        //    if (expandData.monochromeRate <= 0.0f)
+        //    {
+        //        expandData.monochromeRate = 0.0f;
+        //        increaseMonochrome = true;
+        //    }
+        //}
+
+
+        ////課題:ワイプ
+        //if (increaseWipe)
+        //{
+        //    expandData.wipeSize += 1.0f;
+        //    if (expandData.wipeSize >= 100.0f)
+        //    {
+        //        expandData.wipeSize = 1.0f;
+        //        increaseWipe = false;
+        //    }
+        //}
+        //else
+        //{
+        //    expandData.wipeSize -= 1.0f;
+        //    if (expandData.wipeSize <= 0.0f)
+        //    {
+        //        expandData.wipeSize = 0.0f;
+        //        increaseWipe = true;
+        //    }
+        //}
+
         // スプライトのドローコールを実行する
         test2D.Draw(renderContext);
 
